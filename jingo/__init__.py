@@ -77,8 +77,9 @@ class Template(jinja2.Template):
         # flatten the Django Context into a single dictionary.
         context_dict = {}
         if hasattr(context, 'dicts'):
-            for d in context.dicts:
-                context_dict.update(d)
+            with context.bind_template(self):
+                for d in context.dicts:
+                    context_dict.update(d)
         else:
             context_dict = context
 
